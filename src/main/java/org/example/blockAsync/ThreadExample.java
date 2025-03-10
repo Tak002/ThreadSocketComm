@@ -14,10 +14,15 @@ class ThreadExtended extends Thread{
 }
 
 class ThreadImpl  implements Runnable {
+    String inputString;
+
+    ThreadImpl(String inputString){
+        this.inputString = inputString;
+    }
 
     @Override
     public void run() {
-        System.out.println(Thread.currentThread().getName()+": running");
+        System.out.println(Thread.currentThread().getName()+": running  "+inputString);
         try{
             Thread.sleep(5000);
             System.out.println(Thread.currentThread().getName()+": ended");
@@ -40,8 +45,8 @@ public class ThreadExample {
         System.out.println("thread0, thread1 is running");
 
         //Runnable interface 구현
-        Thread thread2 = new Thread(new ThreadImpl());
-        Thread thread3 = new Thread(new ThreadImpl());
+        Thread thread2 = new Thread(new ThreadImpl("name is thread2"));
+        Thread thread3 = new Thread(new ThreadImpl("name is thread3"));
 
         thread2.start();
         thread3.start();
@@ -51,7 +56,7 @@ public class ThreadExample {
         //ExecutorService - ThreadPool
         ExecutorService executorService = Executors.newFixedThreadPool(7);
         for(int i=0; i<10; i++){
-            executorService.execute(new ThreadImpl());
+            executorService.execute(new ThreadImpl("This is ThreadImpl"));
             System.out.println("Thread pool started: " + i);
         }
         System.out.println("Every executor works");
